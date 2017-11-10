@@ -2,4 +2,4 @@
 
 _...in progress._
 
-This project explore graphs through Google Maps API
+This project explore graphs using Google Maps API
