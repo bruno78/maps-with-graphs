@@ -17,7 +17,7 @@ import util.GraphLoader;
  * The edges of the graph are not labeled.
  * Representation of edges is left abstract.
  * 
- * @author UCSD MOOC development team and YOU
+ * @author UCSD MOOC development team and Bruno G. Tavares
  * 
  */
 
@@ -122,7 +122,13 @@ public abstract class Graph {
 	 */
 	public List<Integer> degreeSequence() {
 		// XXX: Implement in part 1 of week 2
-		return null;
+		List<Integer> degSequenceList = new ArrayList<Integer>();
+		for (int v = 0; v < getNumVertices(); v++) {
+			degSequenceList.add(getInNeighbors(v).size() + 
+					            getNeighbors(v).size());
+		}
+		Collections.sort(degSequenceList, Collections.reverseOrder());
+		return degSequenceList;
 	}
 	
 	/**
@@ -246,7 +252,8 @@ public abstract class Graph {
 		
 		System.out.println("Observe all degrees are <= 12.");
 		System.out.println("****");
-
+		List<Integer> degSequence = graphFromFile.degreeSequence();
+		System.out.println(degSequence);
 		System.out.println("\n****");
 		
 		// You can test with real road data here.  Use the data files in data/maps
