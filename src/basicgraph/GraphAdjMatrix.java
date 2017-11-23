@@ -106,25 +106,27 @@ public class GraphAdjMatrix extends Graph {
 	public List<Integer> getDistance2(int v) {
 		// XXX Implement this method in week 2
 		int[][] matrixSq = new int[adjMatrix.length][adjMatrix.length];
-		List<Integer> hop2 = new ArrayList<Integer>();
+		List<Integer> twoHop = new ArrayList<Integer>();
 		
 		// Multiplying matrices (square) to find length 2 paths
 		for (int i = 0; i < matrixSq.length; i++) {
 			for (int j = 0; j < adjMatrix.length; j++) {
-				for (int k = 0; k < adjMatrix.length; j++) {
+				for (int k = 0; k < adjMatrix.length; k++) {
 					matrixSq[i][j] += adjMatrix[i][k] * adjMatrix[k][j];
-				}
-						
+				}					
 			}
-			
 		}
 		// Finding indices with length 2 path
 		for (int k = 0; k < matrixSq.length; k++) {
-			if (matrixSq[v][k] == 2) {
-				hop2.add(k);
+			for (int j = 0; j < matrixSq[v][k]; j++) {
+				if (matrixSq[v][k] > 0) {			
+					twoHop.add(k);
+				}
 			}
+			
 		}
-		return hop2;
+
+		return twoHop;
 	}
 	
 	/**

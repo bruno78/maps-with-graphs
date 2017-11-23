@@ -270,13 +270,13 @@ public abstract class Graph {
 		System.out.println("Goal: implement method using two approaches.");
 		
 		System.out.println("Using GraphAdjList:");
-		System.out.println(graphFromFile.getDistance2(1));
+		System.out.println(graphFromFile.getDistance2(3)); // [5, 3, 8, 1, 3, 2, 3, 6, 7, 0]
 		System.out.println("\n****");
 		
 		GraphAdjMatrix adjMGraphFromFile = new GraphAdjMatrix();
 		GraphLoader.loadRoadMap("data/testdata/simpletest.map", adjMGraphFromFile);
 		System.out.println("Using AdjMatrixGraph:");
-		System.out.println(adjMGraphFromFile.getDistance2(1));
+		System.out.println(adjMGraphFromFile.getDistance2(3)); // [0, 2, 3, 6, 7, 3, 5, 1, 3, 8]
 
 		
 	}
