@@ -252,8 +252,7 @@ public abstract class Graph {
 		
 		System.out.println("Observe all degrees are <= 12.");
 		System.out.println("****");
-		List<Integer> degSequence = graphFromFile.degreeSequence();
-		System.out.println(degSequence);
+		System.out.println(graphFromFile.degreeSequence());
 		System.out.println("\n****");
 		
 		// You can test with real road data here.  Use the data files in data/maps
@@ -269,7 +268,15 @@ public abstract class Graph {
 		// Test your distance2 code here.
 		System.out.println("Testing distance-two methods on sample graphs...");
 		System.out.println("Goal: implement method using two approaches.");
-
+		
+		System.out.println("Using GraphAdjList:");
+		System.out.println(graphFromFile.getDistance2(1));
+		System.out.println("\n****");
+		
+		GraphAdjMatrix adjMGraphFromFile = new GraphAdjMatrix();
+		GraphLoader.loadRoadMap("data/testdata/simpletest.map", adjMGraphFromFile);
+		System.out.println("Using AdjMatrixGraph:");
+		System.out.println(adjMGraphFromFile.getDistance2(1));
 
 		
 	}
