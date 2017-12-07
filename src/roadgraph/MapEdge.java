@@ -13,7 +13,7 @@ public class MapEdge {
 	private Double length;
 	
 	public MapEdge(GeographicPoint start, GeographicPoint end,
-			        String roadType, double length) {
+			        String roadType, String roadName, double length) {
 		this.start = start;
 		this.goal = end;
 		this.roadName = roadName;

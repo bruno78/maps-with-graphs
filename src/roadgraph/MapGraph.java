@@ -8,7 +8,11 @@
 package roadgraph;
 
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Set;
 import java.util.function.Consumer;
 
@@ -24,6 +28,8 @@ import util.GraphLoader;
  */
 public class MapGraph {
 	//TODO: Add your member variables here in WEEK 3
+	private HashMap<GeographicPoint, MapNode> vertices;
+	private int numberOfEdges;
 	
 	
 	/** 
@@ -32,6 +38,8 @@ public class MapGraph {
 	public MapGraph()
 	{
 		// TODO: Implement in this constructor in WEEK 3
+		vertices = new HashMap<GeographicPoint, MapNode>();
+		numberOfEdges = 0;
 	}
 	
 	/**
@@ -41,7 +49,7 @@ public class MapGraph {
 	public int getNumVertices()
 	{
 		//TODO: Implement this method in WEEK 3
-		return 0;
+		return vertices.size();
 	}
 	
 	/**
@@ -51,7 +59,7 @@ public class MapGraph {
 	public Set<GeographicPoint> getVertices()
 	{
 		//TODO: Implement this method in WEEK 3
-		return null;
+		return vertices.keySet();
 	}
 	
 	/**
@@ -61,7 +69,7 @@ public class MapGraph {
 	public int getNumEdges()
 	{
 		//TODO: Implement this method in WEEK 3
-		return 0;
+		return numberOfEdges;
 	}
 
 	
@@ -76,7 +84,13 @@ public class MapGraph {
 	public boolean addVertex(GeographicPoint location)
 	{
 		// TODO: Implement this method in WEEK 3
-		return false;
+		if(location == null || vertices.containsKey(location)) {
+			return false;
+		}
+		
+		vertices.put(location, new MapNode(location));
+		return true;
+		
 	}
 	
 	/**
@@ -95,6 +109,20 @@ public class MapGraph {
 			String roadType, double length) throws IllegalArgumentException {
 
 		//TODO: Implement this method in WEEK 3
+		if (from == null || to == null || roadName == null || roadType == null) {
+			throw new IllegalArgumentException("arguments cannot be null");
+		}
+		else if (!vertices.containsKey(from) || !vertices.containsKey(to)) {
+			throw new IllegalArgumentException("location not found in map");
+		}
+		else if (length < 0) {
+			throw new IllegalArgumentException("lengh cannot be negative");
+		}
+		
+		MapEdge mapEdge = new MapEdge(from, to, roadName, roadType, length);
+		MapNode fromNode = vertices.get(from);
+		fromNode.addEdge(mapEdge);
+		numberOfEdges++;
 		
 	}
 	
@@ -124,12 +152,47 @@ public class MapGraph {
 			 					     GeographicPoint goal, Consumer<GeographicPoint> nodeSearched)
 	{
 		// TODO: Implement this method in WEEK 3
+		HashMap<GeographicPoint, GeographicPoint>parentMap = new HashMap<>();
+		boolean found = doBFSSearch(start, goal,parentMap);
 		
 		// Hook for visualization.  See writeup.
-		//nodeSearched.accept(next.getLocation());
+		// nodeSearched.accept(next.getLocation());
 
 		return null;
 	}
+	
+	private boolean doBFSSearch(GeographicPoint start, GeographicPoint goal, HashMap<GeographicPoint, GeographicPoint> parentMap) {
+		List<GeographicPoint> visited = new ArrayList<>();
+		LinkedList<GeographicPoint> queue = new LinkedList<>();
+		visited.add(start);
+		queue.add(start);
+		boolean found = false;
+
+		while (!queue.isEmpty()) {
+			GeographicPoint curr = queue.poll();
+			System.out.println("Current: " + curr);
+
+			if (curr.equals(goal)) {
+				found = true;
+				break;
+			}
+
+			List<GeographicPoint> neighbors = vertices.get(curr).getNeighbors();
+
+			ListIterator<GeographicPoint> it = neighbors.listIterator(neighbors.size());
+			while (it.hasPrevious()) {
+				GeographicPoint next = it.previous();
+				if (!visited.contains(next)) {
+					visited.add(next);
+					parentMap.put(next, curr);
+					queue.add(next);
+				}
+			}
+		}
+
+		return found;
+	}
+
 	
 
 	/** Find the path from start to goal using Dijkstra's algorithm
