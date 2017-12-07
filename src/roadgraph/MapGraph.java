@@ -16,7 +16,7 @@ import geography.GeographicPoint;
 import util.GraphLoader;
 
 /**
- * @author UCSD MOOC development team and YOU
+ * @author UCSD MOOC development team and Bruno G. Tavares
  * 
  * A class which represents a graph of geographic locations
  * Nodes in the graph are intersections between 
