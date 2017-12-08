@@ -5,6 +5,14 @@ import java.util.List;
 
 import geography.GeographicPoint;
 
+/**
+ * @author Bruno G. Tavares
+ * 
+ * A class which represents an edge in a graph of a Geographic Locaiton
+ * The edge in this case, is a road. 
+ *
+ */
+
 public class MapEdge {
 	private GeographicPoint start;
 	private GeographicPoint goal; 

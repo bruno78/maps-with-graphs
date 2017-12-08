@@ -5,6 +5,15 @@ import java.util.List;
 
 import geography.GeographicPoint;
 
+/**
+ * @author UCSD MOOC development team and Bruno G. Tavares
+ * 
+ * A class which represents a node (vertex) in a graph of geographic locations
+ * Nodes in the graph are intersections between roads (edges).
+ *
+ *
+ **/
+
 public class MapNode {
 	
 	private GeographicPoint location;

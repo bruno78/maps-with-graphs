@@ -1,10 +1,3 @@
-/**
- * @author UCSD MOOC development team and YOU
- * 
- * A class which reprsents a graph of geographic locations
- * Nodes in the graph are intersections between 
- *
- */
 package roadgraph;
 
 
@@ -24,8 +17,8 @@ import util.GraphLoader;
  * @author UCSD MOOC development team and Bruno G. Tavares
  * 
  * A class which represents a graph of geographic locations
- * Nodes in the graph are intersections between 
- *
+ * Nodes in the graph are intersections between roads (edges).
+ *  
  */
 public class MapGraph {
 	//TODO: Add your member variables here in WEEK 3
