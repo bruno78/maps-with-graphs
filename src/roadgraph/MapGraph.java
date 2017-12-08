@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Objects;
 import java.util.Set;
 import java.util.function.Consumer;
 
@@ -152,16 +153,29 @@ public class MapGraph {
 			 					     GeographicPoint goal, Consumer<GeographicPoint> nodeSearched)
 	{
 		// TODO: Implement this method in WEEK 3
-		HashMap<GeographicPoint, GeographicPoint>parentMap = new HashMap<>();
-		boolean found = doBFSSearch(start, goal,parentMap);
 		
-		// Hook for visualization.  See writeup.
-		// nodeSearched.accept(next.getLocation());
+		if(Objects.isNull(start) || Objects.isNull(goal))
+			throw new IllegalArgumentException("Start and goal should not be null");
+		
+		if(!vertices.containsKey(start) || !vertices.containsKey(goal))
+			throw new IllegalArgumentException("Start or Goal doesn't exist");
+		
+		HashMap<GeographicPoint, GeographicPoint>parentMap = new HashMap<>();
+		boolean found = doBFSSearch(start, goal, parentMap, nodeSearched);
+		
+		if(!found) {
+			System.out.println("No Path exists");
+			return new ArrayList<GeographicPoint>();
+		}
+		
 
-		return null;
+		return createPath(start, goal, parentMap);
 	}
 	
-	private boolean doBFSSearch(GeographicPoint start, GeographicPoint goal, HashMap<GeographicPoint, GeographicPoint> parentMap) {
+	private boolean doBFSSearch(GeographicPoint start, GeographicPoint goal, 
+			                    HashMap<GeographicPoint, GeographicPoint> parentMap, 
+			                    Consumer<GeographicPoint> nodeSearched) {
+		
 		List<GeographicPoint> visited = new ArrayList<>();
 		LinkedList<GeographicPoint> queue = new LinkedList<>();
 		visited.add(start);
@@ -186,6 +200,8 @@ public class MapGraph {
 					visited.add(next);
 					parentMap.put(next, curr);
 					queue.add(next);
+					// Hook for visualization.  See writeup.
+					// nodeSearched.accept(next.getLocation());
 				}
 			}
 		}
@@ -193,7 +209,18 @@ public class MapGraph {
 		return found;
 	}
 
-	
+	private List<GeographicPoint> createPath(GeographicPoint start, GeographicPoint goal, 
+			                    HashMap<GeographicPoint, GeographicPoint> parentMap) {
+		
+		LinkedList<GeographicPoint> path = new LinkedList();
+		GeographicPoint curr = goal;
+		while(!curr.equals(start)) {
+			path.addFirst(curr);
+			curr = parentMap.get(curr);
+		}
+		
+		return path;
+	}
 
 	/** Find the path from start to goal using Dijkstra's algorithm
 	 * 
