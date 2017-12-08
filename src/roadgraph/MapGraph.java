@@ -168,7 +168,6 @@ public class MapGraph {
 			return new ArrayList<GeographicPoint>();
 		}
 		
-
 		return createPath(start, goal, parentMap);
 	}
 	
