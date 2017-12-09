@@ -207,7 +207,7 @@ public class MapGraph {
 	private List<GeographicPoint> createPath(GeographicPoint start, GeographicPoint goal, 
 			                    HashMap<GeographicPoint, GeographicPoint> parentMap) {
 		
-		LinkedList<GeographicPoint> path = new LinkedList();
+		LinkedList<GeographicPoint> path = new LinkedList<GeographicPoint>();
 		GeographicPoint curr = goal;
 		while(!curr.equals(start)) {
 			path.addFirst(curr);
