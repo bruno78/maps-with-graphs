@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Set;
 import java.util.function.Consumer;
@@ -24,7 +25,7 @@ public class MapGraph {
 	// be able to look up nodes by lat/lon or by roads
 	// that contain those nodes.
 	// DONE: Add your member variables here in WEEK 3
-	private HashMap<GeographicPoint,MapNode> pointNodeMap;
+	private HashMap<GeographicPoint,MapNode> vertices;
 	private HashSet<MapEdge> edges;
 
 	
@@ -34,7 +35,7 @@ public class MapGraph {
 	public MapGraph()
 	{
 		// DONE: Implement in this constructor in WEEK 3
-		pointNodeMap = new HashMap<GeographicPoint,MapNode>();
+		vertices = new HashMap<GeographicPoint,MapNode>();
 		edges = new HashSet<MapEdge>();
 	}
 	
@@ -45,7 +46,7 @@ public class MapGraph {
 	public int getNumVertices()
 	{
 		// DONE: Implement this method in WEEK 3
-		return pointNodeMap.values().size();
+		return vertices.values().size();
 	}
 	
 	/**
@@ -55,7 +56,7 @@ public class MapGraph {
 	public Set<GeographicPoint> getVertices()
 	{
 		// DONE: Implement this method in WEEK 3
-		return pointNodeMap.keySet();
+		return vertices.keySet();
 	}
 	
 	/**
@@ -83,10 +84,10 @@ public class MapGraph {
 		if (location == null) {
 			return false;
 		}
-		MapNode n = pointNodeMap.get(location);
+		MapNode n = vertices.get(location);
 		if (n == null) {
 			n = new MapNode(location);
-			pointNodeMap.put(location, n);
+			vertices.put(location, n);
 			return true;
 		}
 		else {
@@ -110,8 +111,8 @@ public class MapGraph {
 			String roadType, double length) throws IllegalArgumentException {
 
 		// DONE: Implement this method in WEEK 3
-		MapNode n1 = pointNodeMap.get(from);
-		MapNode n2 = pointNodeMap.get(to);
+		MapNode n1 = vertices.get(from);
+		MapNode n2 = vertices.get(to);
 
 		// check nodes are valid
 		if (n1 == null)
@@ -168,8 +169,8 @@ public class MapGraph {
 		// Setup - check validity of inputs
 		if (start == null || goal == null)
 			throw new NullPointerException("Cannot find route from or to null node");
-		MapNode startNode = pointNodeMap.get(start);
-		MapNode endNode = pointNodeMap.get(goal);
+		MapNode startNode = vertices.get(start);
+		MapNode endNode = vertices.get(goal);
 		if (startNode == null) {
 			System.err.println("Start node " + start + " does not exist");
 			return null;
@@ -268,9 +269,58 @@ public class MapGraph {
 										  GeographicPoint goal, Consumer<GeographicPoint> nodeSearched)
 	{
 		// TODO: Implement this method in WEEK 4
-
-		// Hook for visualization.  See writeup.
-		//nodeSearched.accept(next.getLocation());
+		if (start == null || goal == null) 
+			throw new NullPointerException("start or goal is null!");
+		
+		PriorityQueue<MapNode> PQ = new PriorityQueue<MapNode>();
+		HashSet<MapNode> visited = new HashSet<MapNode>();
+		HashMap<MapNode, MapNode> parentsMap = new HashMap<MapNode, MapNode>();
+		
+		// Setting all the nodes in the map to infinity
+		for (MapNode node : vertices.values()) {
+			node.setDistance(Double.MAX_VALUE);
+		}
+		
+		MapNode startNode = vertices.get(start);
+		MapNode goalNode = vertices.get(goal);
+		startNode.setDistance(0.0);
+		
+		PQ.add(startNode);
+		MapNode current = null;
+		
+		while(!PQ.isEmpty()) {
+			current = PQ.poll();
+			
+			if(visited.contains(current)) continue;
+			else {
+				
+				visited.add(current);
+				// Hook for visualization.  See writeup.
+				nodeSearched.accept(current.getLocation());
+				
+				if(current.equals(goalNode)) {
+					return reconstructPath(parentsMap, goalNode, startNode);
+				}
+				
+				HashMap<MapNode, Double> enqueue = new HashMap<MapNode, Double>();
+				for(MapEdge edge : current.getEdges()) {
+					enqueue.put(edge.getNeighbor(current), edge.getLength());
+				}
+				
+				for(MapNode node : current.getNeighbors()) {
+					if (visited.contains(node)) continue;
+					Double nodesDistance = current.getDistance() + 
+							enqueue.get(node);
+					if (nodesDistance < node.getDistance()) {
+						node.setDistance(nodesDistance);
+						parentsMap.put(node, current);
+						PQ.add(node);
+					}
+				}
+				
+			}
+		}
+		
 		
 		return null;
 	}
