@@ -122,7 +122,7 @@ class MapEdge
 	 * @param node The node on one side of this edge
 	 * @return the other node involved in this edge
 	 */
-	MapNode getNeighbor(MapNode node)
+	MapNode getOtherNode(MapNode node)
 	{
 		if (node.equals(start)) 
 			return end;

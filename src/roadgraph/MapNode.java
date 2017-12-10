@@ -14,7 +14,7 @@ import geography.GeographicPoint;
  * Class representing a vertex (or node) in our MapGraph
  *
  */
-class MapNode implements Comparable<MapNode>
+class MapNode implements Comparable
 {
 	/** The list of edges out of this node */
 	private HashSet<MapEdge> edges;
@@ -22,7 +22,10 @@ class MapNode implements Comparable<MapNode>
 	/** the latitude and longitude of this node */
 	private GeographicPoint location;
 	
-	private Double predictedDistance;
+	/** the actual distance of this node */
+	private Double actualDistance;
+	
+	/** the predicted distance of this node from start */
 	private Double distance;
 	
 	/** 
@@ -33,7 +36,7 @@ class MapNode implements Comparable<MapNode>
 	{
 		location = loc;
 		edges = new HashSet<MapEdge>();
-		predictedDistance = 0.0;
+		actualDistance = 0.0;
 		distance = 0.0;
 	}
 		
@@ -77,12 +80,12 @@ class MapNode implements Comparable<MapNode>
 		return edges;
 	}
 	
-	public Double getPredictedDistance() {
-		return predictedDistance;
+	public Double getActualDistance() {
+		return actualDistance;
 	}
 	
-	public void setPredictedDistance(Double predictedDistance) {
-		this.predictedDistance = predictedDistance;
+	public void setActualDistance(Double actualdDistance) {
+		this.actualDistance = actualDistance;
 	}
 	
 	public Double getDistance() {
@@ -93,9 +96,21 @@ class MapNode implements Comparable<MapNode>
 		this.distance = distance;
 	}
 	
-	public Double getNextNodeDistance(MapNode nextNode) {
+	public Double getOtherNodeDistance(MapNode nextNode) {
 		return location.distance(nextNode.getLocation());
 	}
+	
+	public double getDistanceTo(MapNode to) {
+		Set<MapNode> neighbors = getNeighbors();
+        if (!neighbors.contains(to)) throw new IllegalArgumentException("Cannot find path");
+        GeographicPoint toLocation = to.getLocation();
+        for (MapEdge me : edges) {
+            if (me.getEndNode().equals(toLocation)) {
+                return me.getLength();
+            }
+        }
+        return 0;
+    }
 	
 	/** Returns whether two nodes are equal.
 	 * Nodes are considered equal if their locations are the same, 
@@ -129,10 +144,10 @@ class MapNode implements Comparable<MapNode>
 	 * @return integer -1 descending order, 0 for equal, 1 for ascending
 	 */
 	@Override
-	public int compareTo(MapNode nextNode) {
-		Double thisNodeDistance = this.getPredictedDistance() + this.getDistance();
-		Double nextNodeDistance = nextNode.getPredictedDistance() + this.hashCode();
-		return thisNodeDistance.compareTo(nextNodeDistance);
+	public int compareTo(Object o) {
+		// convert to map node, may throw exception
+		MapNode m = (MapNode)o; 
+		return ((Double)this.getDistance()).compareTo((Double)m.getDistance());
 	}
 	/** ToString to print out a MapNode object
 	 *  @return the string representation of a MapNode
