@@ -27,13 +27,15 @@ Class design and implementation.
   Also allows to add a vertex and edge.
 
   It performs searches in different ways:
-    * Breadth First Search (bfs)
-    * Dijkstra Search (to be implemented in week 4)
-    * A Star Search (to be implemented in week 4)
+  * Breadth First Search (bfs)
+  * Dijkstra Search (to be implemented in week 4)
+  * A Star Search (to be implemented in week 4)
+
 
   Modifications: BFS method was too long, and it was broke into two small private methods:
-    * doBFSSearch
-    * constructPath
+  * doBFSSearch
+  * constructPath
+
 
 **Class: MapNode**
 
@@ -47,8 +49,8 @@ Class design and implementation.
    The edge in this case, is a road.
 
    It contains a list of getter methods:
-    * getStart() (return GeographicPoint object)
-    * getGoal() (return GeographicPoint object)
-    * getRoadName() (return String object)
-    * getRoadType() (return String object)
-    * getLength() (return Double object)
+  * getStart() (return GeographicPoint object)
+  * getGoal() (return GeographicPoint object)
+  * getRoadName() (return String object)
+  * getRoadType() (return String object)
+  * getLength() (return Double object)
