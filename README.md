@@ -1,56 +1,36 @@
-## Graphs
+# Maps with Graphs
 
-_...in progress._
+## Project Summary 
 
-This project explore graphs using Google Maps API
+This project explores 3 graphs (Breadth First Search, Dijkstra, and A*) using the Google Maps API. Users will be able to see how each algorithm behaves when trying to find the shortest path for the same start and end points. 
 
-### Week 2
+## Pre-requisites
 
-**Method Implementations**
+* Java SDK v8
 
-1. **Degree Sequence** which is an ordered list containing the degrees of each of the vertices in a graph, in non-increasing sorted order (with repetitions). The degree sequence of a graph is an invariant of the graph and can be used to distinguish between two graphs and to analyze graph properties.
+* Eclipse
 
-2. **getDistance2** (get Distance 2) finds all vertices reachable by two hops from vertex.
-  - **GraphAdjList** getDistance2 - get vertex's neighbors and loop through them adding to the new array.
-  - **GraphAdjMatrix** getDistance2 - in this case can be obtained by squaring the matrix representation of the graph. Then creating a nested loop where you loop through the column of the inner squared matrix adding all values that are greater than 0 to the new array.
+**Note:** GMapsFx is not compatible with IntelliJ. So it won't work!
 
-### Week 3
+## Tools Used
 
-Class design and implementation.
+* [OpenStreetMap](https://www.openstreetmap.org)
 
+* GMapsFx
 
-**Class: MapGraph**
+* JavaFX
 
-  A class which represents a graph of geographic locations.
-  Nodes in the graph are intersections between roads (Edges) in the map.
-  This class contains methods that return the number of vertices (nodes), and edges.
-  Also allows to add a vertex and edge.
+* [Google Maps API](https://cloud.google.com/maps-platform/)
 
-  It performs searches in different ways:
-  * Breadth First Search (bfs)
-  * Dijkstra Search (to be implemented in week 4)
-  * A Star Search (to be implemented in week 4)
+## Instructions 
 
+Open Eclipse and choose **"Open Projects from File System..."**. Once the project is imported, go to src folder and open application package. Choose MappApp.java and click "run".
 
-  Modifications: BFS method was too long, and it was broke into two small private methods:
-  * doBFSSearch
-  * constructPath
+## License
+
+This application is under MIT License, for further notes, go [here](https://github.com/bruno78/maps-with-graphs/blob/master/LICENSE).
 
 
-**Class: MapNode**
+## Notes
 
-  A class which represents a node (vertex) in a graph of geographic locations.
-  Nodes in the graph are intersections between roads (edges).
-  This class contains methods that allows to add and edge, and return a list of edges, and a list of nodes around a specific edge.
-
-**Class: MapEdge**
-
-   A class which represents an edge in a graph of a Geographic Location.
-   The edge in this case, is a road.
-
-   It contains a list of getter methods:
-  * getStart() (return GeographicPoint object)
-  * getGoal() (return GeographicPoint object)
-  * getRoadName() (return String object)
-  * getRoadType() (return String object)
-  * getLength() (return Double object)
+This project is part of [Coursera's](https://www.coursera.org/) [Advanced Data Structures in Java](https://www.coursera.org/learn/advanced-data-structures) offered by [University of California San Diego](https://ucsd.edu/).
