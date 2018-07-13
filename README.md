@@ -1,8 +1,10 @@
 # Maps with Graphs
 
+<p align="center"><img src="https://cdn.rawgit.com/bruno78/maps-with-graphs/43327738/screenshots/maps-with-graphs-600px.gif"></p>
+
 ## Project Summary 
 
-This project explores 3 graphs (Breadth First Search, Dijkstra, and A*) using the Google Maps API. Users will be able to see how each algorithm behaves when trying to find the shortest path for the same start and end points. 
+This project demonstrates how each of 3 graph algorithms work ([Breadth First Search](https://en.wikipedia.org/wiki/Breadth-first_search), [Dijkstra](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm), and [A*](https://en.wikipedia.org/wiki/A*_search_algorithm)), using Google Maps API. Users can select each algorithm separately to compare how each behaves when trying to find the shortest path from the same start point to the same end point. 
 
 ## Pre-requisites
 
